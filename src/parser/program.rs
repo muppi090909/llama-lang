@@ -1,6 +1,6 @@
 use crate::parser::{Parser, AstNode};
-use crate::lexer::tokens::{TokenType};
-use crate::{unwrap_some, Result};
+use crate::lexer::*;
+use crate::Result;
 
 impl Parser{
 	pub fn parse_program(&mut self) -> Result<Vec<AstNode>>{
@@ -32,7 +32,7 @@ impl Parser{
 						match self.parse_expression(){
 							Ok(result) => {
 								match self.tokens.peek(){
-									Some(t) if t.type_ == TokenType::Semicolon 
+									Some(t) if t.type_ == TokenType::Semicolon
 										=> self.tokens.next(), // eat ';'
 									Some(_) => {
 										let pos = unwrap_some!(self.tokens.peek()).pos;
@@ -53,7 +53,7 @@ impl Parser{
 						return Err("Only functions or expressions allowed at top-level.".to_string())
 					}
 				}
-				None => return Ok(ast)				
+				None => return Ok(ast)
 			}
 		};
 	}
